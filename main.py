@@ -12,20 +12,20 @@ class BG:
 
     def draw(self):
         if self.stage == 1:
-            self.stage01_image.draw(111, 128)
+            self.stage01_image.draw_to_origin(0,0,700, 800)
         elif self.stage == 2:
-            self.stage02_image.draw(111, 128)
+            self.stage02_image.draw_to_origin(0,0,700, 800)
         elif self.stage == 3:
-            self.stage03_image.draw(111, 128)
+            self.stage03_image.draw_to_origin(0,0,700, 800)
         elif self.stage == 4:
-            self.stage04_image.draw(111, 128)
+            self.stage04_image.draw_to_origin(0,0,700, 800)
 
 def start():
     global bg
     bg = BG()
 
 
-open_canvas(223, 256)
+open_canvas(700, 800)
 start()
 for i in range(0, 4):
     bg.stage += 1
