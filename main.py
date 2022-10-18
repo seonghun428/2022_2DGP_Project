@@ -4,6 +4,7 @@ bg = None
 chara = None
 game_start = False
 running = False
+jump = False
 
 move_x = 0
 
@@ -31,6 +32,7 @@ class Mario:
         self.y = 25
         self.frame = 1
         self.size = 40
+        self.jump_cnt = 0
         self.state = 0 # 0 기본 1 점프 2 사다리타기 3 아이템 사용 4 죽음
         self.dir = 0 # 0 오른쪽 1 왼쪽
         self.image = load_image('sprite/mario01.png')
@@ -39,6 +41,12 @@ class Mario:
     def draw(self):
         match self.state:
             case 0:
+                match self.dir:
+                    case 0:
+                        self.image.clip_draw_to_origin(self.frame * 24, 0, 24, 24,  self.x, self.y, self.size, self.size)
+                    case 1:
+                        self.image.clip_composite_draw_to_origin(self.frame * 24, 0, 24, 24, 0, 'h', self.x, self.y, self.size, self.size)
+            case 1:
                 match self.dir:
                     case 0:
                         self.image.clip_draw_to_origin(self.frame * 24, 0, 24, 24,  self.x, self.y, self.size, self.size)
@@ -54,21 +62,22 @@ def start():
     game_start = True
 
 def draw():
-    global move_x
-    clear_canvas()
-    bg.draw()
     chara.x += move_x
+    clear_canvas()    
+    bg.draw()
     chara.draw()
 
 def handle_events():
-    global move_x, running
+    global move_x, running, jump
     events = get_events()
     for event in events:
         if event.type == SDL_KEYDOWN:
             running = True
             if event.key == SDLK_ESCAPE:
                 quit()
-            elif event.key == SDLK_RIGHT:
+            if event.key == SDLK_SPACE:
+                jump = True
+            if event.key == SDLK_RIGHT:
                 chara.dir = 0
                 move_x += 5
             elif event.key == SDLK_LEFT:
@@ -86,6 +95,16 @@ def handle_events():
 open_canvas(700, 800)
 start()
 while game_start:
+    if jump:
+        chara.state = 1
+        if chara.jump_cnt < 5:
+            chara.y += 5
+        else:
+            chara.y -= 5
+        if chara.jump_cnt == 9:
+            chara.state = 0
+            jump = False
+        chara.jump_cnt = (chara.jump_cnt + 1) % 10
     draw()
     update_canvas()
     delay(0.1)
