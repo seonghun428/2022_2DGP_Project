@@ -76,6 +76,7 @@ def handle_events():
                 move_x -= 5
         elif event.type == SDL_KEYUP:
             running = False
+            chara.frame = 1
             if event.key == SDLK_RIGHT:
                 move_x -= 5
             elif event.key == SDLK_LEFT:
