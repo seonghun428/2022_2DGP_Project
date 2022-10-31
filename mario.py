@@ -2,8 +2,7 @@ from pico2d import *
 
 class Mario:
     def __init__(self):
-        self.x = 10
-        self.y = 25
+        self.x, self.y = 10, 25
         self.frame = 1
         self.size = 40
         self.jump_cnt = 0
@@ -32,9 +31,9 @@ class Mario:
     def draw(self):
         match self.state:
             case 0:
-                if self.dir == -1:
+                if self.dir == 1:
                     self.image.clip_draw_to_origin(self.frame * 24, 0, 24, 24,  self.x, self.y, self.size, self.size)
-                elif self.dir == 1:
+                elif self.dir == -1:
                     self.image.clip_composite_draw_to_origin(self.frame * 24, 0, 24, 24, 0, 'h', self.x, self.y, self.size, self.size)
                 else:
                     if self.face_dir == 1:
@@ -55,17 +54,17 @@ class Mario:
     def handle_event(self, event):
         if event.type == SDL_KEYDOWN:
             match event.key:
-                case pico2d.SDLK_RIGHT:
-                    self.dir -= 1
                 case pico2d.SDLK_LEFT:
+                    self.dir -= 1
+                case pico2d.SDLK_RIGHT:
                     self.dir += 1
                 case pico2d.SDLK_SPACE:
                     self.jump()
         elif event.type == SDL_KEYUP:
             match event.key:
-                case pico2d.SDLK_RIGHT:
+                case pico2d.SDLK_LEFT:
                     self.dir += 1
                     self.face_dir = -1
-                case pico2d.SDLK_LEFT:
+                case pico2d.SDLK_RIGHT:
                     self.dir -= 1                    
                     self.face_dir = 1
