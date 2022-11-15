@@ -11,6 +11,9 @@ class BG:
     def change(self):
         self.stage += 1
 
+    def update(self):
+        pass
+
     def draw(self):
         if self.stage == 1:
             self.stage01_image.draw_to_origin(0,0,700, 800)
