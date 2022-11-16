@@ -1,4 +1,6 @@
 from pico2d import *
+import game_framework
+import game_world
 
 # 이벤트 정의
 RD, LD, RU, LU, SPACE = range(5)
@@ -10,6 +12,19 @@ key_event_table = {
     (SDL_KEYUP, SDLK_LEFT): LU,
     (SDL_KEYDOWN, SDLK_SPACE): SPACE
 }
+
+# character run speed
+PIXEL_PER_METER = (10.0 / 0.2)
+RUN_SPEED_KMPH = 5.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+# character action speed
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 4
+
 
 # 상태 정의
 class IDLE:
@@ -47,15 +62,15 @@ class RUN:
         self.face_dir = self.dir
 
     def do(self):
-        self.frame = (self.frame + 1) % 3
-        self.x += self.dir
-        self.x = clamp(0, self.x, 682)
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
+        self.x = clamp(0, self.x, 700 - self.size)
 
     def draw(self):
         if self.dir == 1:
-            self.image.clip_draw_to_origin(self.frame * 18, 0, 18, 18,  self.x, self.y, self.size, self.size)
+            self.image.clip_draw_to_origin(int(self.frame) * 18, 0, 18, 18,  self.x, self.y, self.size, self.size)
         elif self.dir == -1:
-            self.image.clip_composite_draw_to_origin(self.frame * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
+            self.image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
 
 class JUMP:
     def enter(self, event):

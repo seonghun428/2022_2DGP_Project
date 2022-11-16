@@ -1,5 +1,7 @@
 from pico2d import *
 import game_framework
+import game_world
+
 from background import BG
 from mario import Mario
 
@@ -20,19 +22,20 @@ def enter():
     global bg, chara
     bg = BG()
     chara = Mario()
+    game_world.add_object(bg, 0)
+    game_world.add_object(chara, 1)
 
 def exit():
-    global chara, bg
-    del chara
-    del bg
+    game_world.clear()
 
 def update():
-    chara.update()
-    delay(0.1)
+    for game_object in game_world.all_objects():
+        game_object.update()
+    delay(0.01)
 
 def draw_world():
-    bg.draw()
-    chara.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
 
 def draw():
     clear_canvas()    
