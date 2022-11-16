@@ -1,6 +1,5 @@
 from pico2d import *
 import game_framework
-import game_world
 
 # 이벤트 정의
 RD, LD, RU, LU, SPACE = range(5)
@@ -15,7 +14,7 @@ key_event_table = {
 
 # character run speed
 PIXEL_PER_METER = (10.0 / 0.2)
-RUN_SPEED_KMPH = 5.0
+RUN_SPEED_KMPH = 4.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -72,27 +71,10 @@ class RUN:
         elif self.dir == -1:
             self.image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
 
-class JUMP:
-    def enter(self, event):
-        self.dir = 0
-
-    def exit(self, event):
-        pass
-
-    def do(self):
-        self.frame = 2
-
-    def draw(self):
-        if self.face_dir == 1:
-            self.image.clip_draw_to_origin(18, 0, 18, 18,  self.x, self.y, self.size, self.size)
-        else:
-            self.image.clip_composite_draw_to_origin(18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
-
 
 next_state = {
-    IDLE: {RU: RUN, LU:RUN, RD: RUN, LD: RUN, SPACE: JUMP},
-    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, SPACE: JUMP},
-    JUMP: {RU: RUN, LU: RUN, RD: RUN, LD: RUN}
+    IDLE: {RU: RUN, LU:RUN, RD: RUN, LD: RUN, SPACE: IDLE},
+    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, SPACE: RUN},
 }
 
 class Mario:

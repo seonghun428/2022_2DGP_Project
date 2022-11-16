@@ -4,9 +4,11 @@ import game_world
 
 from background import BG
 from mario import Mario
+from kong import Kong
 
 bg = None
 chara = None
+boss = None
 
 def handle_events():
     events = get_events()
@@ -19,11 +21,13 @@ def handle_events():
             chara.handle_event(event)
 
 def enter():
-    global bg, chara
+    global bg, chara, boss
     bg = BG()
     chara = Mario()
+    boss = Kong()
     game_world.add_object(bg, 0)
     game_world.add_object(chara, 1)
+    game_world.add_object(boss, 1)
 
 def exit():
     game_world.clear()
