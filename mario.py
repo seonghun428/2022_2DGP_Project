@@ -120,3 +120,6 @@ class Mario:
 
     def get_bb(self):
         return self.x, self.y, self.x + self.size, self.y + self.size
+
+    def handle_collision(self, other, group):
+        pass
