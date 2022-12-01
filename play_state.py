@@ -49,7 +49,7 @@ def update():
 
     for a,b,group in game_world.all_collision_pairs():
         if collide(a, b):
-            print(f'Collision ', group)
+            # print(f'Collision ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
     delay(0.01)
