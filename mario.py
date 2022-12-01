@@ -34,8 +34,7 @@ FRAMES_PER_ACTION = 5
 class IDLE:
     @staticmethod
     def enter(self,event):
-        self.xdir = 0
-        self.ydir = 0
+        self.dir = 0
     
     @staticmethod
     def exit(self,event):
@@ -56,54 +55,56 @@ class IDLE:
 
 class RUN:
     def enter(self, event):
+        self.dir = 0
         if event == RD:
-            self.xdir += 1
+            self.dir += 1
         elif event == LD:
-            self.xdir -= 1
+            self.dir -= 1
         elif event == RU:
-            self.xdir -= 1
+            self.dir -= 1
         elif event == LU:
-            self.xdir += 1
+            self.dir += 1
 
     def exit(self, event):
-        self.face_dir = self.xdir
+        self.face_dir = self.dir
 
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        self.x += self.xdir * RUN_SPEED_PPS * game_framework.frame_time
+        self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
         self.x = clamp(0, self.x, 700 - self.size)
         if self.go_down == True:
             self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
 
     def draw(self):
-        if self.xdir == 1:
+        if self.dir == 1:
             self.image.clip_draw_to_origin(int(self.frame) * 18, 0, 18, 18,  self.x, self.y, self.size, self.size)
-        elif self.xdir == -1:
+        elif self.dir == -1:
             self.image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
 
 class LIFT:
     def enter(self, event):
+        self.dir = 0
         if event == UD:
-            self.ydir += 1
+            self.dir += 1
         elif event == DD:
-            self.ydir -= 1
+            self.dir -= 1
         elif event == UU:
-            self.ydir -= 1
+            self.dir -= 1
         elif event == DU:
-            self.ydir += 1
+            self.dir += 1
 
     def exit(self, event):
         self.face_dir = 1
 
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
-        self.y += self.ydir * RUN_SPEED_PPS * game_framework.frame_time
+        self.y += self.dir * RUN_SPEED_PPS * game_framework.frame_time
         self.y = clamp(0, self.x, 700 - self.size)
     
     def draw(self):
-        if self.ydir == 1:
+        if self.dir == 1:
             self.lift_image.clip_draw_to_origin(int(self.frame) * 18, 0, 18, 18, self.x, self.y, self.size, self.size)
-        elif self.ydir == -1:
+        elif self.dir == -1:
             self.lift_image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
 
 
@@ -119,8 +120,7 @@ class Mario:
         self.frame = 1
         self.size = 40
         self.jump_cnt = 0
-        self.xdir = 0 # 1 오른쪽 -1 왼쪽
-        self.ydir = 0 # 1 위쪽 -1 아래쪽
+        self.dir = 0 # 1 오른쪽 -1 왼쪽
         self.image = load_image('sprite/mario01.png')
         self.dying_image = load_image('sprite/mario02.png')
         self.lift_image = load_image('sprite/mario03.png')

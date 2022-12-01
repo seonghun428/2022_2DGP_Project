@@ -26,7 +26,7 @@ def handle_events():
 def enter():
     global bg, chara, boss, lands, ladder
     bg = BG()
-    lands = [ Land() for i in range(14) ]
+    lands = [ Land(x * 25 ,0) for x in range(14) ]
     chara = Mario()
     boss = Kong()
     ladder = Ladder()
