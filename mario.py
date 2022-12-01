@@ -2,15 +2,19 @@ from pico2d import *
 import game_framework
 
 # 이벤트 정의
-RD, LD, RU, LU, SPACE = range(5)
-event_name = ['RD','LD','RU','LU','SPACE']
+RD, LD, RU, LU, SPACE, UD, DD, UU, DU = range(9)
+event_name = ['RD','LD','RU','LU','SPACE','UD','DD','UU','DU']
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RD,
     (SDL_KEYDOWN, SDLK_LEFT): LD,
     (SDL_KEYUP, SDLK_RIGHT): RU,
     (SDL_KEYUP, SDLK_LEFT): LU,
-    (SDL_KEYDOWN, SDLK_SPACE): SPACE
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE,
+    (SDL_KEYDOWN, SDLK_UP): UD,
+    (SDL_KEYDOWN, SDLK_DOWN): DD,
+    (SDL_KEYUP, SDLK_UP): UU,
+    (SDL_KEYUP, SDLK_DOWN): DU,
 }
 
 # character run speed
@@ -76,10 +80,36 @@ class RUN:
         elif self.dir == -1:
             self.image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
 
+class LIFT:
+    def enter(self, event):
+        if event == UD:
+            self.dir += 1
+        elif event == DD:
+            self.dir -= 1
+        elif event == UU:
+            self.dir -= 1
+        elif event == DU:
+            self.dir += 1
+
+    def exit(self, event):
+        self.face_dir = self.dir
+
+    def do(self):
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        self.y += self.dir * RUN_SPEED_PPS * game_framework.frame_time
+        self.y = clamp(0, self.x, 700 - self.size)
+    
+    def draw(self):
+        if self.dir == 1:
+            self.image.clip_draw_to_origin(int(self.frame) * 18, 0, 18, 18,  self.x, self.y, self.size, self.size)
+        elif self.dir == -1:
+            self.image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
+
 
 next_state = {
     IDLE: {RU: RUN, LU:RUN, RD: RUN, LD: RUN, SPACE: IDLE},
     RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, SPACE: RUN},
+    LIFT: {}
 }
 
 class Mario:
@@ -91,11 +121,13 @@ class Mario:
         self.dir = 0 # 1 오른쪽 -1 왼쪽
         self.image = load_image('sprite/mario01.png')
         self.dying_image = load_image('sprite/mario02.png')
+        self.lift_image = None
         self.face_dir = 1
         self.event_que = []
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
         self.go_down = True
+        self.can_go_up = False
 
     def update(self):
         self.cur_state.do(self)
@@ -131,4 +163,4 @@ class Mario:
         if group == 'chara:land':
             self.go_down = False
         if group == 'chara:ladder':
-            pass
+            self.can_go_up = True
