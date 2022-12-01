@@ -15,7 +15,7 @@ key_event_table = {
 
 # character run speed
 PIXEL_PER_METER = (10.0 / 0.2)
-RUN_SPEED_KMPH = 4.0
+RUN_SPEED_KMPH = 5.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -23,7 +23,7 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 # character action speed
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-FRAMES_PER_ACTION = 4
+FRAMES_PER_ACTION = 5
 
 
 # 상태 정의
@@ -39,6 +39,8 @@ class IDLE:
     @staticmethod
     def do(self):
         self.frame = 1
+        if self.go_down == True:
+            self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
 
     @staticmethod
     def draw(self):
@@ -66,7 +68,7 @@ class RUN:
         self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
         self.x = clamp(0, self.x, 700 - self.size)
         if self.go_down == True:
-            self.y -= RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
 
     def draw(self):
         if self.dir == 1:

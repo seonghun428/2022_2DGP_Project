@@ -24,7 +24,7 @@ def handle_events():
 def enter():
     global bg, chara, boss, lands
     bg = BG()
-    lands = [ Land() for i in range(200) ]
+    lands = [ Land() for i in range(14) ]
     chara = Mario()
     boss = Kong()
     game_world.add_object(bg, 0)

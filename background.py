@@ -26,8 +26,11 @@ class BG:
         #     self.stage04_image.draw_to_origin(0,0,700, 800)
 
 class Land:
+    count = 0
+
     def __init__(self):
-        self.x = 0
+        self.x = (Land.count * 25)
+        Land.count += 1
         self.y = 0
         self.stage = 1
 
