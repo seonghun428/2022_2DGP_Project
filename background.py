@@ -4,11 +4,10 @@ class BG:
     def __init__(self):
         self.stage = 1
         self.stage01_image = load_image('sprite/bg01.png')
+        self.stage02_image = load_image('sprite/bg04.png')
         # self.stage02_image = load_image('sprite/bg02.png')
         # self.stage03_image = load_image('sprite/bg03.png')
         # self.stage04_image = load_image('sprite/bg04.png')
-
-        self.stage02_image = load_image('sprite/bg04.png')
 
     def change_stage(self):
         self.stage += 1
