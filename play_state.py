@@ -5,11 +5,13 @@ import game_world
 from background import BG, Land
 from mario import Mario
 from kong import Kong
+from ladder import Ladder
 
 bg = None
 chara = None
 boss = None
 lands = []
+ladder = None
 
 def handle_events():
     events = get_events()
@@ -22,18 +24,20 @@ def handle_events():
             chara.handle_event(event)
 
 def enter():
-    global bg, chara, boss, lands
+    global bg, chara, boss, lands, ladder
     bg = BG()
     lands = [ Land() for i in range(14) ]
     chara = Mario()
     boss = Kong()
+    ladder = Ladder()
     game_world.add_object(bg, 0)
     game_world.add_objects(lands, 1)
     game_world.add_object(chara, 1)
     game_world.add_object(boss, 1)
+    game_world.add_object(ladder, 1)
 
     game_world.add_collision_pairs(chara, lands, 'chara:land')
-
+    game_world.add_collision_pairs(chara, ladder, 'chara:ladder')
     # game_world.add_collision_pairs(chara, barrel, 'chara:barrel')
 
 def exit():
