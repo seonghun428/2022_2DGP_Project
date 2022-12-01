@@ -88,6 +88,7 @@ class Kong:
 
     def draw(self):
         self.cur_state.draw(self)
+        draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -96,3 +97,9 @@ class Kong:
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
+
+    def get_bb(self):
+        return self.x, self.y, self.x + 100, self.y + 72
+
+    def handle_collision(self, other, group):
+        pass
