@@ -4,6 +4,7 @@ import game_framework
 # 이벤트 정의
 RD, LD, RU, LU, SPACE = range(5)
 event_name = ['RD','LD','RU','LU','SPACE']
+
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RD,
     (SDL_KEYDOWN, SDLK_LEFT): LD,
@@ -83,7 +84,6 @@ class Mario:
         self.frame = 1
         self.size = 40
         self.jump_cnt = 0
-        self.state = 0 # 0 기본 1 점프 2 사다리타기 3 아이템 사용 4 죽음
         self.dir = 0 # 1 오른쪽 -1 왼쪽
         self.image = load_image('sprite/mario01.png')
         self.dying_image = load_image('sprite/mario02.png')

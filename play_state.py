@@ -2,13 +2,14 @@ from pico2d import *
 import game_framework
 import game_world
 
-from background import BG
+from background import BG, Land
 from mario import Mario
 from kong import Kong
 
 bg = None
 chara = None
 boss = None
+lands = []
 
 def handle_events():
     events = get_events()
@@ -21,11 +22,13 @@ def handle_events():
             chara.handle_event(event)
 
 def enter():
-    global bg, chara, boss
+    global bg, chara, boss, lands
     bg = BG()
+    lands = [ Land() for i in range(10) ]
     chara = Mario()
     boss = Kong()
     game_world.add_object(bg, 0)
+    game_world.add_objects(lands, 1)
     game_world.add_object(chara, 1)
     game_world.add_object(boss, 1)
 
