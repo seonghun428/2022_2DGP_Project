@@ -24,13 +24,15 @@ def handle_events():
 def enter():
     global bg, chara, boss, lands
     bg = BG()
-    lands = [ Land() for i in range(10) ]
+    lands = [ Land() for i in range(200) ]
     chara = Mario()
     boss = Kong()
     game_world.add_object(bg, 0)
     game_world.add_objects(lands, 1)
     game_world.add_object(chara, 1)
     game_world.add_object(boss, 1)
+
+    game_world.add_collision_pairs(chara, lands, 'chara:land')
 
     # game_world.add_collision_pairs(chara, barrel, 'chara:barrel')
 

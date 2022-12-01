@@ -65,6 +65,8 @@ class RUN:
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
         self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
         self.x = clamp(0, self.x, 700 - self.size)
+        if self.go_down == True:
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time
 
     def draw(self):
         if self.dir == 1:
@@ -91,9 +93,11 @@ class Mario:
         self.event_que = []
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
+        self.go_down = True
 
     def update(self):
         self.cur_state.do(self)
+        self.go_down = True
         if self.event_que:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
@@ -122,4 +126,5 @@ class Mario:
         return self.x, self.y, self.x + self.size, self.y + self.size
 
     def handle_collision(self, other, group):
-        pass
+        if group == 'chara:land':
+            self.go_down = False
