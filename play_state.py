@@ -28,9 +28,12 @@ def enter():
     bg = BG()
     for x in range(14):
         lands.append(Land(x * 25, 0))
-    for y in range(3):
+    for y in range(7):
         for x in range(2):
-            lands.append(Land((x + 14 + y * 2) * 25, (y + 1) * 2))
+            lands.append(Land((x + 14 + y * 2) * 25, (y + 1) * 3))
+    for y in range(13):
+        for x in range(2):
+            lands.append(Land((x + y * 2) * 25 - 1, 125 - (y * 3)))
     chara = Mario()
     boss = Kong()
     ladder = Ladder()
