@@ -81,6 +81,19 @@ class RUN:
         elif self.dir == -1:
             self.image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
 
+class LIFT_IDLE:
+    def enter(self, event):
+        self.dir = 0
+
+    def exit(self, event):
+        pass
+
+    def do(self):
+        self.frame = 0
+
+    def draw(self):
+        self.lift_image.clip_draw_to_origin(18, 0, 18, 18, self.x, self.y, self.size, self.size)
+
 class LIFT:
     def enter(self, event):
         self.dir = 0
@@ -111,7 +124,8 @@ class LIFT:
 next_state = {
     IDLE: {RU: RUN, LU:RUN, RD: RUN, LD: RUN, SPACE: IDLE, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT},
     RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, SPACE: RUN, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT},
-    LIFT: {UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT}
+    LIFT_IDLE: {UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT},
+    LIFT: {UD: LIFT_IDLE, DD: LIFT_IDLE, UU: LIFT_IDLE, DU: LIFT_IDLE}
 }
 
 class Mario:
@@ -134,6 +148,7 @@ class Mario:
     def update(self):
         self.cur_state.do(self)
         self.go_down = True
+        self.can_go_up = False
         if self.event_que:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
@@ -156,6 +171,9 @@ class Mario:
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
+            if key_event == UD or key_event == UU or key_event == DD or key_event == DU:
+                if self.can_go_up == False:
+                    return
             self.add_event(key_event)
 
     def get_bb(self):
@@ -164,5 +182,6 @@ class Mario:
     def handle_collision(self, other, group):
         if group == 'chara:land':
             self.go_down = False
+            self.y = other.y + 25
         if group == 'chara:ladder':
             self.can_go_up = True
