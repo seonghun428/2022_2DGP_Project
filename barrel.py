@@ -2,13 +2,12 @@ from pico2d import *
 import game_framework
 
 # 이벤트 정의
-LAND = 0
-event_name = ['LAND']
-
+LAND, AIR = 0, 1
+event_name = ['LAND','AIR']
 
 # barrel run speed
 PIXEL_PER_METER = (10.0 / 0.2)
-RUN_SPEED_KMPH = 6.0
+RUN_SPEED_KMPH = 7.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -16,13 +15,13 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 # barrel action speed
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-FRAMES_PER_ACTION = 2
+FRAMES_PER_ACTION = 4
 
 # 상태 정의
 class DROP:
     @staticmethod
     def enter(self,event):
-        pass
+        self.dir = 0
 
     @staticmethod
     def exit(self,event):
@@ -30,37 +29,55 @@ class DROP:
 
     @staticmethod
     def do(self):
-        pass
+        self.y -= RUN_SPEED_PPS * game_framework.frame_time
+        if self.go_down == False:
+            if self.x >= 650 or self.x <= 49:
+                self.drop_cnt += 1
+            self.add_event(LAND)
 
     @staticmethod
     def draw(self):
-        pass
+        self.image.clip_draw_to_origin(int(self.frame) * 14, 0, 14, 10,  self.x, self.y, self.size, self.size)
 
 class ROLL:
     def enter(self,event):
-        pass
+        if self.drop_cnt % 2 == 1:
+            self.dir = 1
+        elif self.drop_cnt % 2 == 0:
+            self.dir = -1
 
     def exit(self,event):
         pass
 
     def do(self):
-        pass
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+        self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
+        self.x = clamp(0, self.x, 700 - self.size)
+        if self.go_down == True:
+            self.add_event(AIR)
 
     def draw(self):
-        pass
+        if self.dir == 1:
+            self.image.clip_draw_to_origin(int(self.frame) * 14, 0, 14, 10,  self.x, self.y, self.size, self.size)
+        elif self.dir == -1:
+            self.image.clip_composite_draw_to_origin(int(self.frame) * 14, 0, 14, 10, 0, 'h', self.x, self.y, self.size, self.size)
+
 
 next_state = {
     DROP: {LAND: ROLL},
-    ROLL: {}
+    ROLL: {AIR: DROP}
 }
 
 class Barrel:
     def __init__(self):
-        self.x = None
-        self.y = None
+        self.x = 25
+        self.y = 538
+        self.size = 30
+        self.dir = 0
+        self.drop_cnt = 0
         self.frame = 0
-        self.image = None
-        self.drop_image = None
+        self.go_down = True
+        self.image = load_image('sprite/barrel02.png')
 
         self.event_que = []
         self.cur_state = ROLL
@@ -68,6 +85,7 @@ class Barrel:
 
     def update(self):
         self.cur_state.do(self)
+        self.go_down = True
         if self.event_que:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
@@ -79,6 +97,16 @@ class Barrel:
 
     def draw(self):
         self.cur_state.draw(self)
+        draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0,event)
+
+    def get_bb(self):
+        return self.x,self.y,self.x+self.size,self.y+self.size
+
+    def handle_collision(self,other,group):
+        if group == 'barrel:land':
+            if self.y >= other.y:
+                self.go_down = False
+                self.y = other.y + 2

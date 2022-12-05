@@ -26,13 +26,9 @@ class Land:
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        self.stage = 1
 
     def update(self):
-        if self.stage == 1:
-            pass
-        elif self.stage == 2:
-            pass
+        pass
 
     def draw(self):
         draw_rectangle(*self.get_bb())
