@@ -77,7 +77,7 @@ class RUN:
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
         self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
-        self.x = clamp(0, self.x, 700 - self.size)
+        self.x = clamp(-20, self.x, 720 - self.size)
         if self.go_down == True:
             self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
 
@@ -136,7 +136,7 @@ class RUN_JUMP:
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
         self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
-        self.x = clamp(0, self.x, 700 - self.size)
+        self.x = clamp(-20, self.x, 720 - self.size)
         
         if self.jump_cnt >= 26:
             self.y += 2 * RUN_SPEED_PPS * game_framework.frame_time
@@ -276,7 +276,7 @@ class Mario:
                 self.y = other.y + 5
 
         if group == 'chara:ladder':
-            if self.x <= other.x:
+            if self.x <= other.x and self.x + self.size >= other.x + 25:
                 self.can_go_v = True
                 if self.cur_state == LIFT_IDLE or self.cur_state == LIFT:
                     if self.y <= other.y + 25 and self.y >= other.y - 5:

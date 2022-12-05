@@ -32,8 +32,12 @@ class DROP:
     def do(self):
         self.y -= RUN_SPEED_PPS * game_framework.frame_time
         if self.go_down == False:
-            if self.x >= 650 or self.x <= 49:
-                self.drop_cnt += 1
+            if self.stage == 1:
+                if self.x >= 650 or self.x <= 49:
+                    self.drop_cnt += 1
+            elif self.stage == 2:
+                if self.x >= 575 or self.x <= 125:
+                    self.drop_cnt += 1
             self.add_event(LAND)
 
     @staticmethod
@@ -53,7 +57,7 @@ class ROLL:
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
-        self.x = clamp(0, self.x, 700 - self.size)
+        self.x = clamp(-10, self.x, 710 - self.size)
         if self.go_down == True:
             self.add_event(AIR)
 
@@ -73,8 +77,10 @@ class Barrel:
     def __init__(self,stagenum):
         if stagenum == 1:
             self.x, self.y = 25, 538
+            self.stage = 1
         elif stagenum == 2:
             self.x, self.y = 370, 538
+            self.stage = 2
         self.size = 30
         self.dir = 0
         self.drop_cnt = 0
