@@ -211,7 +211,7 @@ next_state = {
 
 class Mario:
     def __init__(self):
-        self.x, self.y = 100, 25
+        self.x, self.y = 150, 25
         self.frame = 1
         self.size = 40
         self.jump_cnt = 50

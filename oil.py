@@ -26,7 +26,7 @@ class IDLE:
 
 class Oil:
     def __init__(self):
-        self.x, self.y = 10,25
+        self.x, self.y = 60,25
         self.size = 40
         self.frame = 0
         self.image = load_image('sprite/oil.png')
