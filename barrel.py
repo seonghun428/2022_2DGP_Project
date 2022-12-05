@@ -4,9 +4,7 @@ import game_framework
 # 이벤트 정의
 LAND = 0
 event_name = ['LAND']
-key_event_table = {
 
-}
 
 # barrel run speed
 PIXEL_PER_METER = (10.0 / 0.2)
@@ -84,8 +82,3 @@ class Barrel:
 
     def add_event(self, event):
         self.event_que.insert(0,event)
-
-    def handle_event(self,event):
-        if (event.type, event.key) in key_event_table:
-            key_event = key_event_table[(event.type, event.key)]
-            self.add_event(key_event)
