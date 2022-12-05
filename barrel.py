@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import game_world
 
 # 이벤트 정의
 LAND, AIR = 0, 1
@@ -110,3 +111,5 @@ class Barrel:
             if self.y >= other.y:
                 self.go_down = False
                 self.y = other.y + 5
+        if group == 'oil:barrel':
+            game_world.remove_object(self)
