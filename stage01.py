@@ -61,6 +61,7 @@ def enter():
     game_world.add_collision_pairs(chara, ladders, 'chara:ladder')
     game_world.add_collision_pairs(barrels,lands, 'barrel:land')
     game_world.add_collision_pairs(oil, barrels,'oil:barrel')
+    game_world.add_collision_pairs(chara,barrels,'chara:barrel')
     game_world.add_collision_pairs(chara, gf, 'chara:gf')
 
 def exit():

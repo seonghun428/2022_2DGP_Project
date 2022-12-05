@@ -121,3 +121,5 @@ class Barrel:
                 self.y = other.y + 5
         if group == 'oil:barrel':
             game_world.remove_object(self)
+        if group == 'chara:barrel':
+            game_world.remove_object(self)

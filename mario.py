@@ -2,8 +2,8 @@ from pico2d import *
 import game_framework
 
 # 이벤트 정의
-RD, LD, RU, LU, SPACE, UD, DD, UU, DU, TIMER = range(10)
-event_name = ['RD','LD','RU','LU','SPACE','UD','DD','UU','DU','TIMER']
+RD, LD, RU, LU, SPACE, UD, DD, UU, DU, TIMER, ATTACKED = range(11)
+event_name = ['RD','LD','RU','LU','SPACE','UD','DD','UU','DU','TIMER','DIE']
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RD,
@@ -100,9 +100,9 @@ class JUMP:
     @staticmethod
     def do(self):
         if self.jump_cnt >= 26:
-            self.y += 2 * RUN_SPEED_PPS * game_framework.frame_time
+            self.y += 3 * RUN_SPEED_PPS * game_framework.frame_time
         elif self.jump_cnt < 26 and self.jump_cnt >= 1:
-            self.y -= 2 * RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= 3 * RUN_SPEED_PPS * game_framework.frame_time
         elif self.jump_cnt <= 0:
             self.add_event(TIMER)
         self.jump_cnt -= 1
@@ -139,9 +139,9 @@ class RUN_JUMP:
         self.x = clamp(-20, self.x, 720 - self.size)
         
         if self.jump_cnt >= 26:
-            self.y += 2 * RUN_SPEED_PPS * game_framework.frame_time
+            self.y += 3 * RUN_SPEED_PPS * game_framework.frame_time
         elif self.jump_cnt < 26 and self.jump_cnt >= 1:
-            self.y -= 2 * RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= 3 * RUN_SPEED_PPS * game_framework.frame_time
         elif self.jump_cnt <= 0:
             self.add_event(TIMER)
         self.jump_cnt -= 1
@@ -196,8 +196,6 @@ class LIFT:
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.y += self.dir * RUN_SPEED_PPS * game_framework.frame_time
-        if self.go_down == False:
-            pass
     
     @staticmethod
     def draw(self):
@@ -206,14 +204,53 @@ class LIFT:
         elif self.dir == -1:
             self.lift_image.clip_composite_draw_to_origin(int(self.frame) * 18, 0, 18, 18, 0, 'h', self.x, self.y, self.size, self.size)
 
+class HURT:
+    @staticmethod
+    def enter(self,event):
+        pass
+    
+    @staticmethod
+    def exit(self,event):
+        pass
+    
+    @staticmethod
+    def do(self):
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+        self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
+        if self.go_down == False:
+            self.add_event(TIMER)
+     
+    @staticmethod
+    def draw(self):
+        self.dying_image.clip_draw_to_origin(int(self.frame) * 18,0,18,18,self.x,self.y,self.size,self.size)
+
+
+class DIED:
+    @staticmethod
+    def enter(self,event):
+        pass
+    
+    @staticmethod
+    def exit(self,event):
+        pass
+    
+    @staticmethod
+    def do(self):
+        self.frame = 4
+    
+    @staticmethod
+    def draw(self):
+        self.dying_image.clip_draw_to_origin(int(self.frame) * 18,0,18,18,self.x,self.y,self.size,self.size)
 
 next_state = {
-    IDLE: {RU: RUN, LU:RUN, RD: RUN, LD: RUN, SPACE: JUMP, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT},
-    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, SPACE: RUN_JUMP, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT},
-    JUMP: {TIMER: IDLE, RU: RUN_JUMP, LU:RUN_JUMP, RD: RUN_JUMP, LD: RUN_JUMP},
-    RUN_JUMP: {TIMER: RUN, RU: JUMP, LU: JUMP, RD: JUMP, LD: JUMP},
-    LIFT_IDLE: {UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT, RD: RUN, LD: RUN},
-    LIFT: {UD: LIFT_IDLE, DD: LIFT_IDLE, UU: LIFT_IDLE, DU: LIFT_IDLE}
+    IDLE: {RU: RUN, LU:RUN, RD: RUN, LD: RUN, SPACE: JUMP, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT,ATTACKED: HURT},
+    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, SPACE: RUN_JUMP, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT,ATTACKED: HURT},
+    JUMP: {TIMER: IDLE, RU: RUN_JUMP, LU:RUN_JUMP, RD: RUN_JUMP, LD: RUN_JUMP,ATTACKED: HURT},
+    RUN_JUMP: {TIMER: RUN, RU: JUMP, LU: JUMP, RD: JUMP, LD: JUMP,ATTACKED: HURT},
+    LIFT_IDLE: {UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT, RD: RUN, LD: RUN,ATTACKED: HURT},
+    LIFT: {UD: LIFT_IDLE, DD: LIFT_IDLE, UU: LIFT_IDLE, DU: LIFT_IDLE,ATTACKED: HURT},
+    HURT: {TIMER: DIED},
+    DIED: {}
 }
 
 class Mario:
@@ -281,3 +318,6 @@ class Mario:
                 if self.cur_state == LIFT_IDLE or self.cur_state == LIFT:
                     if self.y <= other.y + 25 and self.y >= other.y - 5:
                         self.y = clamp(other.y, self.y, other.y + 20)
+
+        if group == 'chara:barrel':
+            self.add_event(ATTACKED)
