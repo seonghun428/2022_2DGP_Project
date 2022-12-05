@@ -70,9 +70,11 @@ next_state = {
 }
 
 class Barrel:
-    def __init__(self):
-        self.x = 25
-        self.y = 538
+    def __init__(self,stagenum):
+        if stagenum == 1:
+            self.x, self.y = 25, 538
+        elif stagenum == 2:
+            self.x, self.y = 370, 538
         self.size = 30
         self.dir = 0
         self.drop_cnt = 0
