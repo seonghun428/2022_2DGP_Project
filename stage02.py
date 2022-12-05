@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import game_world
+import pickle
 
 from background import BG, Land
 from mario import Mario
@@ -32,44 +33,12 @@ def handle_events():
 def enter():
     global bg, chara, boss, lands, ladders, oil, barrels,gf
     bg = BG(2)
-    
-    for x in range(28):
-        lands.append(Land(x * 25, 20))
-    for x in range(6):
-        lands.append(Land(x * 25 + 25, 145))
-    for x in range(5):
-        lands.append(Land(x * 25 + 50, 270))
-    for x in range(4):
-        lands.append(Land(x * 25 + 75, 395))
-    for x in range(3):
-        lands.append(Land(x * 25 + 100, 520))
-    for x in range(14):
-        lands.append(Land(x * 25 + 175, 645))
-    for x in range(12):
-        for y in range(4):
-            lands.append(Land(x * 25 + 201, y * 125 + 145))
-    for y in range(4):
-        for x in range(6 - y):
-            lands.append(Land(x * 25 + 527, y * 125 + 145))
-    
-    for x in range(4):
-        for y in range(5):
-            ladders.append(Ladder(x * 25 + 25, y * 25 + 23 + x * 125))
-    for x in range(4):
-        for y in range(5):
-            ladders.append(Ladder(x * 25 + 577, 500 - y * 25 - x * 125))
-    for y in range(5):
-        ladders.append(Ladder(201, y * 25 + 400))
-    for y in range(5):
-        ladders.append(Ladder(476, y * 25 + 400))
-    for y in range(5):
-        ladders.append(Ladder(226, y * 25 + 150))
-    for y in range(5):
-        ladders.append(Ladder(451, y * 25 + 150))
-    for y in range(5):
-        ladders.append(Ladder(326, y * 25 + 25))
-    for y in range(5):
-        ladders.append(Ladder(326, y * 25 + 275))
+
+    with open('lands02.pickle','rb') as f:
+        lands = pickle.load(f)
+
+    with open('ladders02.pickle','rb') as ff:
+        ladders = pickle.load(ff)
     
     oil = Oil()
     
