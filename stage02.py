@@ -30,7 +30,10 @@ def enter():
     bg = BG(2)
     
     for x in range(28):
-        lands.append(Land(x * 25 ,22))
+        lands.append(Land(x * 25 ,20))
+
+    for y in range(5):
+        ladders.append(Ladder(25, y * 25 + 23))
     
     oil = Oil()
     
@@ -38,10 +41,12 @@ def enter():
     
     game_world.add_object(bg,0)
     game_world.add_objects(lands,1)
+    game_world.add_objects(ladders,1)
     game_world.add_object(oil,1)
     game_world.add_object(chara,1)
     
     game_world.add_collision_pairs(chara, lands, 'chara:land')
+    game_world.add_collision_pairs(chara,ladders,'chara:ladder')
     # game_world.add_collision_pairs(oil, barrels,'oil:barrel)
 
 def exit():
