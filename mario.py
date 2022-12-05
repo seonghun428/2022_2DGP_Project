@@ -191,7 +191,6 @@ class LIFT:
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.y += self.dir * RUN_SPEED_PPS * game_framework.frame_time
-        self.y = clamp(0, self.y, 700 - self.size)
     
     @staticmethod
     def draw(self):
@@ -269,3 +268,7 @@ class Mario:
 
         if group == 'chara:ladder':
             self.can_go_up = True
+            self.y = clamp(other.y, self.y, other.y + 25)
+            if self.y >= other.y + 25:
+                self.can_go_up = False
+                self.cur_state = LIFT_IDLE

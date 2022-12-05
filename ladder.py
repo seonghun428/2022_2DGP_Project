@@ -1,9 +1,9 @@
 from pico2d import *
 
 class Ladder:
-    def __init__(self):
-        self.x = 248
-        self.y = 25
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
         self.stage = 1
 
     def update(self):

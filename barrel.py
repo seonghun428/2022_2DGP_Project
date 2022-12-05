@@ -65,7 +65,7 @@ class Barrel:
         self.drop_image = None
 
         self.event_que = []
-        self.cur_state = DROP
+        self.cur_state = ROLL
         self.cur_state.enter(self, None)
 
     def update(self):
