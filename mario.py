@@ -156,15 +156,18 @@ class RUN_JUMP:
 class LIFT_IDLE:
     @staticmethod
     def enter(self, event):
+        self.can_go_h = False
         self.dir = 0
 
     @staticmethod
     def exit(self, event):
-        pass
+        self.can_go_h = True
 
     @staticmethod
     def do(self):
         self.frame = 0
+        if self.go_down == False:
+            pass
 
     @staticmethod
     def draw(self):
@@ -173,6 +176,7 @@ class LIFT_IDLE:
 class LIFT:
     @staticmethod
     def enter(self, event):
+        self.can_go_h = False
         self.dir = 0
         if event == UD:
             self.dir += 1
@@ -186,11 +190,14 @@ class LIFT:
     @staticmethod
     def exit(self, event):
         self.face_dir = 1
+        self.can_go_h = True
 
     @staticmethod
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.y += self.dir * RUN_SPEED_PPS * game_framework.frame_time
+        if self.go_down == False:
+            pass
     
     @staticmethod
     def draw(self):
@@ -205,7 +212,7 @@ next_state = {
     RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, SPACE: RUN_JUMP, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT},
     JUMP: {TIMER: IDLE, RU: RUN_JUMP, LU:RUN_JUMP, RD: RUN_JUMP, LD: RUN_JUMP},
     RUN_JUMP: {TIMER: RUN, RU: JUMP, LU: JUMP, RD: JUMP, LD: JUMP},
-    LIFT_IDLE: {UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT},
+    LIFT_IDLE: {UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT, RD: RUN, LD: RUN},
     LIFT: {UD: LIFT_IDLE, DD: LIFT_IDLE, UU: LIFT_IDLE, DU: LIFT_IDLE}
 }
 
@@ -225,12 +232,13 @@ class Mario:
         self.cur_state.enter(self, None)
         self.before_state = IDLE
         self.go_down = True
-        self.can_go_up = False
+        self.can_go_v = False
+        self.can_go_h = True
 
     def update(self):
         self.cur_state.do(self)
         self.go_down = True
-        self.can_go_up = False
+        self.can_go_v = False
         if self.event_que:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
@@ -254,7 +262,7 @@ class Mario:
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             if key_event == UD or key_event == UU or key_event == DD or key_event == DU:
-                if self.can_go_up == False:
+                if self.can_go_v == False:
                     return
             self.add_event(key_event)
 
@@ -265,11 +273,11 @@ class Mario:
         if group == 'chara:land':
             if self.y >= other.y:
                 self.go_down = False
-                self.y = other.y + 2
+                self.y = other.y + 5
 
         if group == 'chara:ladder':
-            self.can_go_up = True
-            self.y = clamp(other.y, self.y, other.y + 25)
-            if self.y >= other.y + 25:
-                self.can_go_up = False
-                self.cur_state = LIFT_IDLE
+            self.can_go_v = True
+            self.y = clamp(other.y, self.y, other.y + 20)
+            # if self.y >= other.y + 25:
+            #     self.can_go_v = False
+            #     self.cur_state = LIFT_IDLE
