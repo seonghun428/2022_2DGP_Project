@@ -36,8 +36,24 @@ def enter():
             lands.append(Land((x + 14 + y * 2) * 25, (y + 1) * 3 + 23))
     for y in range(13):
         for x in range(2):
-            lands.append(Land((x + y * 2) * 25 - 1, 148 - (y * 3)))
-    
+            lands.append(Land((x + y * 2) * 25 - 1, 148 - y * 3))
+    for y in range(13):
+        for x in range(2):
+            lands.append(Land(49 + (x + y * 2) * 25, 213 + y * 3))         
+    for y in range(13):
+        for x in range(2):
+            lands.append(Land((x + y * 2) * 25 - 1, 353 - y * 3))
+    for y in range(13):
+        for x in range(2):
+            lands.append(Land(49 + (x + y * 2) * 25, 420 + y * 3))
+    for x in range(18):
+        lands.append(Land(x * 25 - 1, 535))
+    for y in range(4):
+        for x in range(2):
+            lands.append(Land(449 + (x + y * 2) * 25, 532 - y * 3))
+    for x in range(6):
+        lands.append(Land(273 + x * 25, 622))
+
     ladders.append(Ladder(248,25))
     
     oil = Oil()

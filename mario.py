@@ -259,7 +259,7 @@ class Mario:
             self.add_event(key_event)
 
     def get_bb(self):
-        return self.x, self.y, self.x + self.size, self.y + self.size
+        return self.x, self.y, self.x + self.size, self.y + self.size - 2
 
     def handle_collision(self, other, group):
         if group == 'chara:land':
