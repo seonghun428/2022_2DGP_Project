@@ -26,8 +26,15 @@ def handle_events():
 def enter():
     global bg,chara,boss,lands,ladders
     bg = BG(2)
-
+    for x in range(28):
+        lands.append(Land(x * 25 ,22))
+    chara = Mario()
+    
     game_world.add_object(bg,0)
+    game_world.add_objects(lands,1)
+    game_world.add_object(chara,1)
+    
+    game_world.add_collision_pairs(chara, lands, 'chara:land')
 
 def exit():
     game_world.clear()
