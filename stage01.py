@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import game_world
+import pickle
 
 from background import BG, Land
 from mario import Mario
@@ -33,55 +34,12 @@ def enter():
     global bg, chara, boss, lands, ladders, oil, barrels,gf
     bg = BG(1)
 
-    for x in range(14):
-        lands.append(Land(x * 25, 20))
-    for y in range(7):
-        for x in range(2):
-            lands.append(Land((x + 14 + y * 2) * 25, (y + 1) * 3 + 20))
-    for y in range(13):
-        for x in range(2):
-            lands.append(Land((x + y * 2) * 25 - 1, 145 - y * 3))
-    for y in range(13):
-        for x in range(2):
-            lands.append(Land(49 + (x + y * 2) * 25, 210 + y * 3))         
-    for y in range(13):
-        for x in range(2):
-            lands.append(Land((x + y * 2) * 25 - 1, 350 - y * 3))
-    for y in range(13):
-        for x in range(2):
-            lands.append(Land(49 + (x + y * 2) * 25, 417 + y * 3))
-    for x in range(18):
-        lands.append(Land(x * 25 - 1, 532))
-    for y in range(4):
-        for x in range(2):
-            lands.append(Land(449 + (x + y * 2) * 25, 529 - y * 3))
-    for x in range(6):
-        lands.append(Land(273 + x * 25, 619))
+    with open('lands01.pickle','rb') as f:
+        lands = pickle.load(f)
 
-    ladders.append(Ladder(248,25))
-    for y in range(3):
-        ladders.append(Ladder(574, y * 25 + 40))
-    for y in range(4):
-        ladders.append(Ladder(297, y * 25 + 130))
-    for y in range(3):
-        ladders.append(Ladder(97, y * 25 + 142))
-    ladders.append(Ladder(198,225))
-    for y in range(4):
-        ladders.append(Ladder(348, y * 25 + 234))
-    for y in range(3):
-        ladders.append(Ladder(574, y * 25 + 246))
-    ladders.append(Ladder(524, 325))
-    for y in range(4):
-        ladders.append(Ladder(222, y * 25 + 330))
-    for y in range(3):
-        ladders.append(Ladder(97, y * 25 + 348))
-    for y in range(2):
-        ladders.append(Ladder(273, y * 25 + 424))
-    for y in range(3):
-        ladders.append(Ladder(574, y * 25 + 452))
-    for y in range(4):
-        ladders.append(Ladder(399, y * 25 + 524))
-    
+    with open('ladders01.pickle','rb') as ff:
+        ladders = pickle.load(ff)
+
     barrels.append(Barrel())
 
     oil = Oil()
