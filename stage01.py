@@ -61,6 +61,26 @@ def enter():
     ladders.append(Ladder(248,25))
     for y in range(3):
         ladders.append(Ladder(574, y * 25 + 40))
+    for y in range(4):
+        ladders.append(Ladder(297, y * 25 + 130))
+    for y in range(3):
+        ladders.append(Ladder(97, y * 25 + 142))
+    ladders.append(Ladder(198,225))
+    for y in range(4):
+        ladders.append(Ladder(348, y * 25 + 234))
+    for y in range(3):
+        ladders.append(Ladder(574, y * 25 + 246))
+    ladders.append(Ladder(524, 325))
+    for y in range(4):
+        ladders.append(Ladder(222, y * 25 + 330))
+    for y in range(3):
+        ladders.append(Ladder(97, y * 25 + 348))
+    for y in range(2):
+        ladders.append(Ladder(273, y * 25 + 424))
+    for y in range(3):
+        ladders.append(Ladder(574, y * 25 + 452))
+    for y in range(4):
+        ladders.append(Ladder(399, y * 25 + 524))
     
     barrels.append(Barrel())
 
@@ -83,6 +103,7 @@ def enter():
     game_world.add_collision_pairs(chara, ladders, 'chara:ladder')
     game_world.add_collision_pairs(barrels,lands, 'barrel:land')
     game_world.add_collision_pairs(oil, barrels,'oil:barrel')
+    game_world.add_collision_pairs(chara, gf, 'chara:gf')
     # game_world.add_collision_pairs(chara, barrels, 'chara:barrel')
 
 def exit():
