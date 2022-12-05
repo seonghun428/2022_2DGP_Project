@@ -24,7 +24,7 @@ def handle_events():
             chara.handle_event(event)
 
 def enter():
-    global bg, chara, boss, lands, ladder
+    global bg, chara, boss, lands, ladders
     bg = BG()
 
     for x in range(14):
@@ -48,7 +48,7 @@ def enter():
 
     game_world.add_collision_pairs(chara, lands, 'chara:land')
     game_world.add_collision_pairs(chara, ladders, 'chara:ladder')
-    # game_world.add_collision_pairs(chara, barrel, 'chara:barrel')
+    # game_world.add_collision_pairs(chara, barrels, 'chara:barrel')
 
 def exit():
     game_world.clear()
