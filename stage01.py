@@ -25,7 +25,7 @@ def handle_events():
 
 def enter():
     global bg, chara, boss, lands, ladders
-    bg = BG()
+    bg = BG(1)
 
     for x in range(14):
         lands.append(Land(x * 25, 23))
