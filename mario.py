@@ -263,8 +263,9 @@ class Mario:
 
     def handle_collision(self, other, group):
         if group == 'chara:land':
-            self.go_down = False
-            self.y = other.y + 2
+            if self.y >= other.y:
+                self.go_down = False
+                self.y = other.y + 2
 
         if group == 'chara:ladder':
             self.can_go_up = True
