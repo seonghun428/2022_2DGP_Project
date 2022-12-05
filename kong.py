@@ -60,8 +60,11 @@ next_state = {
 }
 
 class Kong:
-    def __init__(self):
-        self.x, self.y = 20, 538
+    def __init__(self,stagenum):
+        if stagenum == 1:
+            self.x, self.y = 20, 538
+        elif stagenum == 2:
+            self.x, self.y = 290, 525
         self.frame = 0
         self.opening_image = load_image('sprite/dk01.png')
         self.image = load_image('sprite/dk02.png')

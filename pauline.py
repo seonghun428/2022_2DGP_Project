@@ -23,9 +23,11 @@ class IDLE:
             self.image.clip_composite_draw_to_origin(int(self.frame) * 20, 0, 20, 22, 0, 'h', self.x, self.y, 40, 44)
 
 class Pauline():
-    def __init__(self):
-        self.x = 280
-        self.y = 625
+    def __init__(self,stagenum):
+        if stagenum == 1:
+            self.x, self.y = 280, 625
+        elif stagenum == 2:
+            self.x, self.y = 320, 650
         self.frame = 2
         self.dir = 0
         self.face_dir = 1

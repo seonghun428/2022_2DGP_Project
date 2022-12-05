@@ -44,9 +44,9 @@ def enter():
 
     oil = Oil()
 
-    boss = Kong()
+    boss = Kong(1)
     chara = Mario()
-    gf = Pauline()
+    gf = Pauline(1)
 
     game_world.add_object(bg, 0)
     game_world.add_objects(lands, 1)
