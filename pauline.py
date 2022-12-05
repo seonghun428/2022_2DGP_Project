@@ -5,7 +5,7 @@ import game_framework
 class IDLE:
     @staticmethod
     def enter(self,event):
-        pass
+        self.dir = 0
 
     @staticmethod
     def exit(self,event):
@@ -13,17 +13,22 @@ class IDLE:
 
     @staticmethod
     def do(self):
-        pass
+        self.frame = 2
 
     @staticmethod
     def draw(self):
-        pass
+        if self.face_dir == 1:
+            self.image.clip_draw_to_origin(int(self.frame) * 20, 0, 20, 22,  self.x, self.y, 40, 44)
+        elif self.face_dir == -1:
+            self.image.clip_composite_draw_to_origin(int(self.frame) * 20, 0, 20, 22, 0, 'h', self.x, self.y, 40, 44)
 
 class Pauline():
     def __init__(self):
-        self.x = 200
-        self.y = 650
-        self.frame = 3
+        self.x = 280
+        self.y = 625
+        self.frame = 2
+        self.dir = 0
+        self.face_dir = 1
         self.image = load_image('sprite/pauline.png')
 
         self.cur_state = IDLE
@@ -37,7 +42,7 @@ class Pauline():
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x,self.y,self.x+40,self.y+44
+        return self.x,self.y,self.x+80,self.y+44
 
     def handle_collision(self,other,group):
         pass
