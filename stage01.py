@@ -6,10 +6,12 @@ from background import BG, Land
 from mario import Mario
 from kong import Kong
 from ladder import Ladder
+from oil import Oil
 
 bg = None
 chara = None
 boss = None
+oil = None
 lands = []
 ladders = []
 
@@ -24,7 +26,7 @@ def handle_events():
             chara.handle_event(event)
 
 def enter():
-    global bg, chara, boss, lands, ladders
+    global bg, chara, boss, lands, ladders, oil
     bg = BG(1)
 
     for x in range(14):
@@ -38,16 +40,20 @@ def enter():
     
     ladders.append(Ladder(248,25))
     
+    oil = Oil()
+
     chara = Mario()
     boss = Kong()
     game_world.add_object(bg, 0)
     game_world.add_objects(lands, 1)
     game_world.add_objects(ladders, 1)
+    game_world.add_object(oil,1 )
     game_world.add_object(chara, 1)
     game_world.add_object(boss, 1)
 
     game_world.add_collision_pairs(chara, lands, 'chara:land')
     game_world.add_collision_pairs(chara, ladders, 'chara:ladder')
+    # game_world.add_collision_pairs(oil, barrels,'oil:barrel)
     # game_world.add_collision_pairs(chara, barrels, 'chara:barrel')
 
 def exit():
