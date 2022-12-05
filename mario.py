@@ -281,5 +281,3 @@ class Mario:
                 if self.cur_state == LIFT_IDLE or self.cur_state == LIFT:
                     if self.y <= other.y + 25 and self.y >= other.y - 5:
                         self.y = clamp(other.y, self.y, other.y + 20)
-                # self.can_go_v = False
-                # self.cur_state = LIFT_IDLE
