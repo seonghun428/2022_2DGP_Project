@@ -109,4 +109,4 @@ class Barrel:
         if group == 'barrel:land':
             if self.y >= other.y:
                 self.go_down = False
-                self.y = other.y + 2
+                self.y = other.y + 5

@@ -276,8 +276,10 @@ class Mario:
                 self.y = other.y + 5
 
         if group == 'chara:ladder':
-            self.can_go_v = True
-            self.y = clamp(other.y, self.y, other.y + 20)
-            # if self.y >= other.y + 25:
-            #     self.can_go_v = False
-            #     self.cur_state = LIFT_IDLE
+            if self.x <= other.x:
+                self.can_go_v = True
+                if self.cur_state == LIFT_IDLE or self.cur_state == LIFT:
+                    if self.y <= other.y + 25 and self.y >= other.y - 5:
+                        self.y = clamp(other.y, self.y, other.y + 20)
+                # self.can_go_v = False
+                # self.cur_state = LIFT_IDLE
