@@ -41,7 +41,7 @@ class Land:
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x,self.y,self.x+25,self.y+25
+        return self.x,self.y,self.x+25,self.y+2
 
     def handle_collision(self,other,group):
         pass
