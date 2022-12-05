@@ -28,13 +28,14 @@ def all_objects():
 
 def clear():
     for o in all_objects():
+        remove_collision_object(o)
         del o
     for layer in objects:
         layer.clear()
 
 def add_collision_pairs(a, b, group):
     if group not in collision_group:
-        collision_group[group] = [ [], []]
+        collision_group[group] = [ [], [] ]
 
     if a:
         if type(a) == list:
