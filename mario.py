@@ -284,9 +284,6 @@ class Mario:
             except KeyError:
                 print(f'ERROR: STATE {self.cur_state}, EVENT {event_name[event]}')
             self.cur_state.enter(self, event)
-    
-    def jump(self):
-        pass
 
     def draw(self):
         self.cur_state.draw(self)
@@ -300,6 +297,9 @@ class Mario:
             key_event = key_event_table[(event.type, event.key)]
             if key_event == UD or key_event == UU or key_event == DD or key_event == DU:
                 if self.can_go_v == False:
+                    return
+            if key_event == RD or key_event == RU or key_event == LD or key_event == LU:
+                if self.can_go_h == False:
                     return
             self.add_event(key_event)
 
