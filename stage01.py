@@ -58,14 +58,14 @@ def enter():
     
     oil = Oil()
 
-    chara = Mario()
     boss = Kong()
+    chara = Mario()
     game_world.add_object(bg, 0)
     game_world.add_objects(lands, 1)
     game_world.add_objects(ladders, 1)
     game_world.add_object(oil,1 )
-    game_world.add_object(chara, 1)
     game_world.add_object(boss, 1)
+    game_world.add_object(chara, 1)
 
     game_world.add_collision_pairs(chara, lands, 'chara:land')
     game_world.add_collision_pairs(chara, ladders, 'chara:ladder')
