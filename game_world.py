@@ -50,7 +50,7 @@ def add_collision_pairs(a, b, group):
             collision_group[group][1].append(b)
 
 def all_collision_pairs():
-    for group, pairs in collision_group.items():
+    for group, pairs in collision_group.copy().items():
         for a in pairs[0]:
             for b in pairs[1]:
                 yield a, b, group

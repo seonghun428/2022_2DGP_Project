@@ -1,7 +1,6 @@
 from pico2d import *
 import game_framework
 import game_world
-import stage01
 
 from background import BG
 
@@ -16,6 +15,7 @@ def handle_events():
             if event.key == SDLK_ESCAPE:
                 game_framework.quit()
             elif event.key == SDLK_RETURN:
+                import stage01
                 game_framework.change_state(stage01)
 
 def enter():

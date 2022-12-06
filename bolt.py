@@ -1,6 +1,5 @@
 from pico2d import *
 import game_framework
-import ending
 
 class Bolt():
     cnt = 8
@@ -24,6 +23,7 @@ class Bolt():
         if group == 'chara:bolt':
             if self.can_draw:
                 Bolt.cnt -= 1
+                if Bolt.cnt == 0:
+                    import ending
+                    game_framework.change_state(ending)
             self.can_draw = False
-            if Bolt.cnt == 0:
-                game_framework.change_state(ending)
