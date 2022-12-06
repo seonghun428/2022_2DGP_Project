@@ -33,11 +33,8 @@ def enter():
     global bg, chara, boss, lands, ladders, oil,gf, barrels
     bg = BG(1)
 
-    with open('lands01.pickle','rb') as f:
-        lands = pickle.load(f)
-
-    with open('ladders01.pickle','rb') as ff:
-        ladders = pickle.load(ff)
+    with open('stage_data/stage01.pickle','rb') as f:
+        [lands, ladders] = pickle.load(f)
 
     oil = Oil()
 
