@@ -43,7 +43,7 @@ def enter():
 
     for x in range(2):
         for y in range(4):
-            bolts.append(Bolt(x * 326 + 175, y * 125 +  125))
+            bolts.append(Bolt(x * 326 + 175, y * 125 + 122))
     
     oil = Oil()
     
