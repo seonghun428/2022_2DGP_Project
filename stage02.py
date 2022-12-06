@@ -40,7 +40,7 @@ def enter():
     with open('ladders02.pickle','rb') as ff:
         ladders = pickle.load(ff)
     
-    barrels.append(Barrel(2))
+    barrels = [Barrel(2)]
 
     oil = Oil()
     

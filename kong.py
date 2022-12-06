@@ -1,5 +1,8 @@
 from pico2d import *
 import game_framework
+import game_world
+
+from barrel import Barrel
 
 # 이벤트 정의
 TIMER = 0
@@ -22,7 +25,7 @@ FRAMES_PER_ACTION = 2
 class IDLE:
     @staticmethod
     def enter(self,event):
-        pass
+        self.timer = 250
     
     @staticmethod
     def exit(self,event):
@@ -31,6 +34,9 @@ class IDLE:
     @staticmethod
     def do(self):
         self.frame = 1
+        self.timer -= 1
+        if self.timer == 0:
+            self.add_event(TIMER)
 
     @staticmethod
     def draw(self):
@@ -38,33 +44,60 @@ class IDLE:
 
 
 class OPENING:
+    @staticmethod
     def enter(self, event):
-        self.timer = 400
+        self.timer = 350
 
+    @staticmethod
     def exit(self, event):
         pass
 
+    @staticmethod
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
         self.timer -= 1
         if self.timer == 0:
             self.add_event(TIMER)
 
+    @staticmethod
     def draw(self):
         self.opening_image.clip_draw_to_origin(int(self.frame) * 50, 0, 50, 36, self.x, self.y, 100, 72)
 
+class THROW:
+    @staticmethod
+    def enter(self,event):
+        self.timer = 90
+        self.throw()
+
+    @staticmethod
+    def exit(self,event):
+        pass
+    
+    @staticmethod
+    def do(self):
+        self.frame = 2
+        self.timer -= 1
+        if self.timer == 0:
+            self.add_event(TIMER)
+    
+    @staticmethod
+    def draw(self):
+        self.image.clip_draw_to_origin(int(self.frame) * 50, 0, 50, 36,  self.x, self.y, 100, 72)
 
 next_state = {
     OPENING: {TIMER: IDLE},
-    IDLE: {}
+    IDLE: {TIMER: THROW},
+    THROW: {TIMER: IDLE}
 }
 
 class Kong:
+    barrels = []
     def __init__(self,stagenum):
         if stagenum == 1:
             self.x, self.y = 20, 538
         elif stagenum == 2:
             self.x, self.y = 290, 525
+        self.stage = stagenum
         self.frame = 0
         self.opening_image = load_image('sprite/dk01.png')
         self.image = load_image('sprite/dk02.png')
@@ -98,3 +131,11 @@ class Kong:
 
     def handle_collision(self, other, group):
         pass
+
+    def throw(self):
+        Kong.barrels.append(Barrel(self.stage))
+        game_world.add_objects(Kong.barrels,1)
+        
+        game_world.add_collision_pairs(Kong.barrels,None, 'barrel:land')
+        game_world.add_collision_pairs(None, Kong.barrels,'oil:barrel')
+        game_world.add_collision_pairs(None,Kong.barrels,'chara:barrel')

@@ -3,8 +3,8 @@ import game_framework
 import game_world
 
 # 이벤트 정의
-LAND, AIR = 0, 1
-event_name = ['LAND','AIR']
+TIMER, LAND, AIR = 0, 1, 2
+event_name = ['TIMER','LAND','AIR']
 
 # barrel run speed
 PIXEL_PER_METER = (10.0 / 0.2)
@@ -76,7 +76,7 @@ next_state = {
 class Barrel:
     def __init__(self,stagenum):
         if stagenum == 1:
-            self.x, self.y = 25, 538
+            self.x, self.y = 50, 538
             self.stage = 1
         elif stagenum == 2:
             self.x, self.y = 370, 538
