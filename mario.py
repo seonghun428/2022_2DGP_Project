@@ -80,9 +80,7 @@ class RUN:
         self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
         self.x = clamp(-20, self.x, 720 - self.size)
         if self.go_down == True:
-            self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
-        else:
-            self.run_sound.play(1)
+            self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time            
 
     @staticmethod
     def draw(self):
@@ -279,8 +277,6 @@ class Mario:
         self.can_go_v = False
         self.can_go_h = True
         self.font = load_font('font/ARCADE.TTF', 100)
-        self.run_sound = load_wav('sound/15.wav')
-        self.run_sound.set_volume(32)
         self.jump_sound = load_wav('sound/16.wav')
         self.jump_sound.set_volume(32)
 
