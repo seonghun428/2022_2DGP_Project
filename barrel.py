@@ -19,6 +19,23 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
 
 # 상태 정의
+class IDLE:
+    @staticmethod
+    def enter(self,event):
+        pass
+    
+    @staticmethod
+    def exit(self,event):
+        pass
+    
+    @staticmethod
+    def do(self):
+        pass
+    
+    @staticmethod
+    def draw(self):
+        pass
+
 class DROP:
     @staticmethod
     def enter(self,event):
@@ -69,6 +86,7 @@ class ROLL:
 
 
 next_state = {
+    IDLE: {TIMER: ROLL},
     DROP: {LAND: ROLL},
     ROLL: {AIR: DROP}
 }
@@ -89,7 +107,7 @@ class Barrel:
         self.image = load_image('sprite/barrel02.png')
 
         self.event_que = []
-        self.cur_state = ROLL
+        self.cur_state = IDLE
         self.cur_state.enter(self, None)
 
     def update(self):
@@ -119,7 +137,9 @@ class Barrel:
             if self.y >= other.y:
                 self.go_down = False
                 self.y = other.y + 5
+
         if group == 'oil:barrel':
             game_world.remove_object(self)
+            
         if group == 'chara:barrel':
             game_world.remove_object(self)

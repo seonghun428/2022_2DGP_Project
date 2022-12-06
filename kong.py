@@ -75,7 +75,10 @@ class THROW:
     
     @staticmethod
     def do(self):
-        self.frame = 2
+        if self.stage == 1:
+            self.frame = 2
+        elif self.stage == 2:
+            self.frame = 0
         self.timer -= 1
         if self.timer == 0:
             self.add_event(TIMER)
@@ -91,13 +94,15 @@ next_state = {
 }
 
 class Kong:
-    barrels = []
+    # barrels = []
     def __init__(self,stagenum):
         if stagenum == 1:
             self.x, self.y = 20, 538
         elif stagenum == 2:
             self.x, self.y = 290, 525
         self.stage = stagenum
+        self.barrels = [Barrel(self.stage) for _ in range(100)]
+        self.cnt = 0
         self.frame = 0
         self.opening_image = load_image('sprite/dk01.png')
         self.image = load_image('sprite/dk02.png')
@@ -133,9 +138,11 @@ class Kong:
         pass
 
     def throw(self):
-        Kong.barrels.append(Barrel(self.stage))
-        game_world.add_objects(Kong.barrels,1)
+        self.barrels[self.cnt].add_event(TIMER)
+        self.cnt += 1
+        # Kong.barrels.append(Barrel(self.stage))
+        # game_world.add_objects(Kong.barrels,1)
         
-        game_world.add_collision_pairs(Kong.barrels,None, 'barrel:land')
-        game_world.add_collision_pairs(None, Kong.barrels,'oil:barrel')
-        game_world.add_collision_pairs(None,Kong.barrels,'chara:barrel')
+        # game_world.add_collision_pairs(Kong.barrels,None, 'barrel:land')
+        # game_world.add_collision_pairs(None, Kong.barrels,'oil:barrel')
+        # game_world.add_collision_pairs(None,Kong.barrels,'chara:barrel')

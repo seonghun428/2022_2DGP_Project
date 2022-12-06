@@ -5,10 +5,9 @@ import pickle
 
 from background import BG, Land
 from mario import Mario
-from kong import Kong
+from kong import Kong, Barrel
 from ladder import Ladder
 from oil import Oil
-from barrel import Barrel
 from pauline import Pauline
 
 bg = None
@@ -40,11 +39,10 @@ def enter():
     with open('ladders02.pickle','rb') as ff:
         ladders = pickle.load(ff)
     
-    barrels = [Barrel(2)]
-
     oil = Oil()
     
     boss = Kong(2)
+    barrels = boss.barrels
     chara = Mario()
     gf = Pauline(2)
     
@@ -61,6 +59,7 @@ def enter():
     game_world.add_collision_pairs(chara, ladders, 'chara:ladder')
     game_world.add_collision_pairs(barrels,lands, 'barrel:land')
     game_world.add_collision_pairs(oil, barrels,'oil:barrel')
+    game_world.add_collision_pairs(chara,barrels,'chara:barrel')
     game_world.add_collision_pairs(chara, gf, 'chara:gf')
 
 def exit():

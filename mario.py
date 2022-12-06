@@ -298,9 +298,6 @@ class Mario:
             if key_event == UD or key_event == UU or key_event == DD or key_event == DU:
                 if self.can_go_v == False:
                     return
-            if key_event == RD or key_event == RU or key_event == LD or key_event == LU:
-                if self.can_go_h == False:
-                    return
             self.add_event(key_event)
 
     def get_bb(self):
