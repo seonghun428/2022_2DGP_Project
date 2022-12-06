@@ -9,6 +9,7 @@ from kong import Kong, Barrel
 from ladder import Ladder
 from oil import Oil
 from pauline import Pauline
+from bolt import Bolt
 
 bg = None
 chara = None
@@ -18,6 +19,7 @@ gf = None
 lands = []
 ladders = []
 barrels = []
+bolts = []
 
 def handle_events():
     events = get_events()
@@ -30,7 +32,7 @@ def handle_events():
             chara.handle_event(event)
 
 def enter():
-    global bg, chara, boss, lands, ladders, oil, barrels,gf
+    global bg, chara, boss, lands, ladders, oil, barrels,gf, bolts
     bg = BG(2)
 
     with open('lands02.pickle','rb') as f:
@@ -38,6 +40,10 @@ def enter():
 
     with open('ladders02.pickle','rb') as ff:
         ladders = pickle.load(ff)
+
+    for x in range(2):
+        for y in range(4):
+            bolts.append(Bolt(x * 326 + 175, y * 125 +  125))
     
     oil = Oil()
     
@@ -54,6 +60,7 @@ def enter():
     game_world.add_object(boss, 1)
     game_world.add_object(chara, 1)
     game_world.add_object(gf,1)
+    game_world.add_objects(bolts,1)
     
     game_world.add_collision_pairs(chara, lands, 'chara:land')
     game_world.add_collision_pairs(chara, ladders, 'chara:ladder')
@@ -61,6 +68,7 @@ def enter():
     game_world.add_collision_pairs(oil, barrels,'oil:barrel')
     game_world.add_collision_pairs(chara,barrels,'chara:barrel')
     game_world.add_collision_pairs(chara, gf, 'chara:gf')
+    game_world.add_collision_pairs(chara,bolts,'chara:bolt')
 
 def exit():
     game_world.clear()
