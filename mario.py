@@ -288,7 +288,6 @@ class Mario:
         self.cur_state.do(self)
         self.go_down = True
         self.can_go_v = False
-        print(f'{self.x}, {self.y}')
         if self.event_que:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
