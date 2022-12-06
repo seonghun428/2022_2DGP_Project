@@ -97,7 +97,7 @@ class Barrel:
             self.x, self.y = 50, 538
             self.stage = 1
         elif stagenum == 2:
-            self.x, self.y = 370, 538
+            self.x, self.y = 330, 538
             self.stage = 2
         self.size = 30
         self.dir = 0
@@ -140,6 +140,6 @@ class Barrel:
 
         if group == 'oil:barrel':
             game_world.remove_object(self)
-            
+
         if group == 'chara:barrel':
             game_world.remove_object(self)
