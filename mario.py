@@ -241,6 +241,7 @@ class DIED:
     @staticmethod
     def draw(self):
         self.dying_image.clip_draw_to_origin(int(self.frame) * 18,0,18,18,self.x,self.y,self.size,self.size)
+        self.font.draw(110,335,'GAME OVER',(255,255,255))
 
 next_state = {
     IDLE: {RU: RUN, LU:RUN, RD: RUN, LD: RUN, SPACE: JUMP, UD: LIFT, DD: LIFT, UU: LIFT, DU: LIFT,ATTACKED: HURT},
@@ -271,6 +272,7 @@ class Mario:
         self.go_down = True
         self.can_go_v = False
         self.can_go_h = True
+        self.font = load_font('font/ARCADE.TTF', 100)
 
     def update(self):
         self.cur_state.do(self)
