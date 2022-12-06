@@ -12,7 +12,7 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type== SDL_KEYDOWN:
+        elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 game_framework.quit()
             elif event.key == SDLK_RETURN:
@@ -48,10 +48,10 @@ def resume():
     pass
 
 def test_self():
-    import game_start
+    import ending
 
     pico2d.open_canvas(700, 800)
-    game_framework.run(game_start)
+    game_framework.run(ending)
     pico2d.close_canvas()
 
 if __name__ == '__main__':

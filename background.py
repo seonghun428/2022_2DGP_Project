@@ -7,6 +7,7 @@ class BG:
         self.stage01_image = load_image('sprite/bg01.png')
         self.stage02_image = load_image('sprite/bg04.png')
         self.end_image = load_image('sprite/end.png')
+        self.font = load_font('font/ARCADE.TTF', 50)
 
     def update(self):
         pass
@@ -20,6 +21,9 @@ class BG:
             self.stage02_image.draw_to_origin(0,0,700,800)
         elif self.stage == 3:
             self.end_image.draw_to_origin(0,0,700,800)
+            # self.font.draw(110, 600,'CONGRATULATION!!',(255,255,255))
+            self.font.draw(110, 300,'Press Enter to Restart',(255,255,255))
+            self.font.draw(110, 200,'Press Escape to Exit',(255,255,255))
 
 class Land:
     def __init__(self,x,y):

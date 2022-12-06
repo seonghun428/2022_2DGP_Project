@@ -1,7 +1,6 @@
 from pico2d import *
 import game_framework
 import game_start
-import stage02
 
 # 이벤트 정의
 RD, LD, RU, LU, SPACE, UD, DD, UU, DU, TIMER, ATTACKED = range(11)
@@ -325,5 +324,6 @@ class Mario:
         if group == 'chara:barrel':
             self.add_event(ATTACKED)
 
-        if group == 'chara:gf':
+        if group == 'chara:gf':            
+            import stage02
             game_framework.change_state(stage02)
