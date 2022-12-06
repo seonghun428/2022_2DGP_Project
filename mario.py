@@ -47,6 +47,7 @@ class IDLE:
         self.frame = 1
         if self.go_down == True:
             self.y -= RUN_SPEED_PPS * game_framework.frame_time
+        self.y = clamp(25, self.y, 680)
 
     @staticmethod
     def draw(self):
@@ -218,7 +219,7 @@ class HURT:
     @staticmethod
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
-        self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
+        self.y -= RUN_SPEED_PPS * game_framework.frame_time
         if self.go_down == False:
             self.add_event(TIMER)
      
@@ -244,7 +245,7 @@ class DIED:
     def draw(self):
         self.dying_image.clip_draw_to_origin(int(self.frame) * 18,0,18,18,self.x,self.y,self.size,self.size)
         self.font.draw(110,335,'GAME OVER',(255,255,255))
-        delay(1)
+        delay(2)
         game_framework.change_state(game_start)
 
 next_state = {
@@ -287,6 +288,7 @@ class Mario:
         self.cur_state.do(self)
         self.go_down = True
         self.can_go_v = False
+        print(f'{self.x}, {self.y}')
         if self.event_que:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
@@ -330,6 +332,7 @@ class Mario:
             self.add_event(ATTACKED)
 
         if group == 'chara:gf':
-            delay(1)
+            self.font.draw(110,335,'STAGE1 CLEAR',(255,255,255))
+            delay(2)
             import stage02
             game_framework.change_state(stage02)
