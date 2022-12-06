@@ -6,6 +6,7 @@ class BG:
         self.start_image = load_image('sprite/start.png')
         self.stage01_image = load_image('sprite/bg01.png')
         self.stage02_image = load_image('sprite/bg04.png')
+        self.end_image = load_image('sprite/end.png')
 
     def update(self):
         pass
@@ -17,6 +18,8 @@ class BG:
             self.stage01_image.draw_to_origin(0,0,700,800)
         elif self.stage == 2:
             self.stage02_image.draw_to_origin(0,0,700,800)
+        elif self.stage == 3:
+            self.end_image.draw_to_origin(0,0,700,800)
 
 class Land:
     def __init__(self,x,y):

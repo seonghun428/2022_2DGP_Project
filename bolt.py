@@ -1,4 +1,6 @@
 from pico2d import *
+import game_framework
+import ending
 
 class Bolt():
     cnt = 8
@@ -23,3 +25,5 @@ class Bolt():
             if self.can_draw:
                 Bolt.cnt -= 1
             self.can_draw = False
+            if Bolt.cnt == 0:
+                game_framework.change_state(ending)
