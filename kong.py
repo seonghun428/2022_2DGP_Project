@@ -26,10 +26,17 @@ class IDLE:
     @staticmethod
     def enter(self,event):
         self.timer = 250
+        if self.stage == 1:
+            self.stage1_sound.repeat_play()
+        elif self.stage == 2:
+            self.stage2_sound.repeat_play()
     
     @staticmethod
     def exit(self,event):
-        pass
+        if self.stage == 1:
+            self.stage1_sound.stop()
+        elif self.stage == 2:
+            self.stage2_sound.stop()
 
     @staticmethod
     def do(self):
@@ -47,6 +54,10 @@ class OPENING:
     @staticmethod
     def enter(self, event):
         self.timer = 350
+        if self.stage == 1:
+            self.start1_sound.play(1)
+        elif self.stage == 2:
+            self.start2_sound.play(1)
 
     @staticmethod
     def exit(self, event):
@@ -108,6 +119,14 @@ class Kong:
         self.image = load_image('sprite/dk02.png')
         self.dying_image = load_image('sprite/dk03.png')
         self.timer = 100
+        self.start1_sound = load_music('sound/03.mp3')
+        self.start1_sound.set_volume(32)
+        self.start2_sound = load_music('sound/04.mp3')
+        self.start2_sound.set_volume(32)
+        self.stage1_sound = load_music('sound/06.mp3')
+        self.stage1_sound.set_volume(32)
+        self.stage2_sound = load_music('sound/10.mp3')
+        self.stage2_sound.set_volume(32)
 
         self.event_que = []
         self.cur_state = OPENING
@@ -140,9 +159,3 @@ class Kong:
     def throw(self):
         self.barrels[self.cnt].add_event(TIMER)
         self.cnt += 1
-        # Kong.barrels.append(Barrel(self.stage))
-        # game_world.add_objects(Kong.barrels,1)
-        
-        # game_world.add_collision_pairs(Kong.barrels,None, 'barrel:land')
-        # game_world.add_collision_pairs(None, Kong.barrels,'oil:barrel')
-        # game_world.add_collision_pairs(None,Kong.barrels,'chara:barrel')
