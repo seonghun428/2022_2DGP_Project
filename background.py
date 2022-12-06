@@ -47,7 +47,7 @@ class Land:
         pass
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
+        pass
 
     def get_bb(self):
         return self.x,self.y,self.x+25,self.y+5

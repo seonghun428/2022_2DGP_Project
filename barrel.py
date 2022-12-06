@@ -119,12 +119,11 @@ class Barrel:
             try:
                 self.cur_state = next_state[self.cur_state][event]
             except KeyError:
-                print(f'ERROR: STATE {self.cur_state}, EVENT {event_name[event]}')
+                pass
             self.cur_state.enter(self,event)
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0,event)

@@ -41,7 +41,6 @@ class Pauline():
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x,self.y,self.x+80,self.y+44

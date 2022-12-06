@@ -39,7 +39,6 @@ class Oil:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x,self.y,self.x + 40,self.y + 62
