@@ -46,7 +46,7 @@ class IDLE:
     def do(self):
         self.frame = 1
         if self.go_down == True:
-            self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time
 
     @staticmethod
     def draw(self):
@@ -80,7 +80,7 @@ class RUN:
         self.x += self.dir * RUN_SPEED_PPS * game_framework.frame_time
         self.x = clamp(-20, self.x, 720 - self.size)
         if self.go_down == True:
-            self.y -= 1.5 * RUN_SPEED_PPS * game_framework.frame_time            
+            self.y -= RUN_SPEED_PPS * game_framework.frame_time            
 
     @staticmethod
     def draw(self):
@@ -259,8 +259,11 @@ next_state = {
 }
 
 class Mario:
-    def __init__(self):
-        self.x, self.y = 150, 25
+    def __init__(self,stagenum):
+        if stagenum == 1:
+            self.x, self.y = 150, 30
+        elif stagenum == 2:            
+            self.x, self.y = 150, 30
         self.frame = 1
         self.size = 40
         self.jump_cnt = 50
@@ -327,5 +330,6 @@ class Mario:
             self.add_event(ATTACKED)
 
         if group == 'chara:gf':
+            delay(1)
             import stage02
             game_framework.change_state(stage02)

@@ -40,7 +40,7 @@ def enter():
 
     boss = Kong(1)
     barrels = boss.barrels
-    chara = Mario()
+    chara = Mario(1)
     gf = Pauline(1)
 
     game_world.add_object(bg, 0)
